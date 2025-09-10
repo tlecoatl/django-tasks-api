@@ -1,8 +1,9 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 from rest_framework.permissions import IsAuthenticated
 from .models import Task
-from .serializers import TaskSerializer
+from .serializers import TaskSerializer, RegisterUserSerializer
 from .permissions import IsOwnerOrReadOnly
+from django.contrib.auth.models import User
 
 class TaskViewSet(viewsets.ModelViewSet):
     serializer_class = TaskSerializer
@@ -16,3 +17,7 @@ class TaskViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         print(f"[DEBUG] Saving task for user: {self.request.user}")
         serializer.save(owner=self.request.user)
+
+class RegisterUserView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = RegisterUserSerializer
