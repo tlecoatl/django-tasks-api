@@ -1,4 +1,4 @@
-from rest_framework import viewsets, generics
+from rest_framework import viewsets, generics, permissions
 from rest_framework.permissions import IsAuthenticated
 from .models import Task
 from .serializers import TaskSerializer, RegisterUserSerializer
@@ -21,3 +21,4 @@ class TaskViewSet(viewsets.ModelViewSet):
 class RegisterUserView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = RegisterUserSerializer
+    permission_classes = [permissions.AllowAny]
